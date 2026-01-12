@@ -1,0 +1,27 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <SuppressIces>ICE38;ICE64;ICE84;ICE91</SuppressIces>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MSICustomAction\MSICustomAction.vcxproj" />
+  </ItemGroup>
+</Project>

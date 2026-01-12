@@ -1,0 +1,41 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="Whatever" Manufacturer="Whatever" Version="1.0.0.0" UpgradeCode="07CDF3A8-0D50-4D8B-A9D9-AFB72583017E" Scope="perUser">
+		<!-- Set when executing the second stage -->
+		<Property Id="ERROROUT" Secure="yes" />
+
+		<!-- Event names to be used by the custom action DLL -->
+		<Property Id="EVENTPRIMARY" Secure="yes" />
+		<Property Id="EVENTMSI" Secure="yes" />
+		<CustomAction Id="SetProperties" Property="SignalAndWait" Value="[EVENTPRIMARY];[EVENTMSI]" />
+
+		<!-- Dummy file used during the first stage -->
+		<MediaTemplate EmbedCab="yes" />
+		<File Source="dummy.txt" Name="a" Condition="NOT ERROROUT" />
+
+		<!-- Custom action from DLL that signals an event and then waits for another event before continuing -->
+		<Binary Id="CADLL" SourceFile="MSICustomAction.dll" />
+		<CustomAction Id="SignalAndWait" Execute="commit" BinaryRef="CADLL" DllEntry="SignalAndWait" />
+
+		<!-- Custom action to throw an error and initiate a rollback -->
+		<Property Id="ErrorCommand" Value="\"/>
+		<CustomAction Id="Error" Execute="commit" ExeCommand="" Property="ErrorCommand" />
+
+		<!--
+			Always executed: "SetProperties" forwards event names from public properties to the custom action DLL
+				First stage: Install normally. During uninstall, execute "SignalAndWait" when RBF file is created
+				Second stage: During install, execute "SignalAndWait" when RBS file is created and then execute "Error" to initiate rollback
+			
+			Default actions that register and publish the installation are disabled during the second stage
+		-->
+		<InstallExecuteSequence>
+			<Custom Action="SetProperties" Before="InstallInitialize" />
+			<Custom Action="SignalAndWait" Before="Error" Condition="REMOVE OR ERROROUT" />
+			<Custom Action="Error" Before="InstallFinalize" Condition="ERROROUT" />
+
+			<RegisterUser Condition="NOT ERROROUT" />
+			<RegisterProduct Condition="NOT ERROROUT" />
+			<PublishFeatures Condition="NOT ERROROUT" />
+			<PublishProduct Condition="NOT ERROROUT" />
+		</InstallExecuteSequence>
+	</Package>
+</Wix>
