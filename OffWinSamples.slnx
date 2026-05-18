@@ -1,0 +1,18 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DLLInjector/DLLInjector.vcxproj" Id="d7523f46-aef7-490c-8112-e7c79d5cbc52" />
+  <Project Path="ErrorMSI/ErrorMSI.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" />
+  <Project Path="ErrorMSI2/ErrorMSI2.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" />
+  <Project Path="FolderContentsDeleteToArbitraryDelete/FolderContentsDeleteToArbitraryDelete.vcxproj" Id="41191bfd-8443-486f-8d0a-cd9b5e1d625a" />
+  <Project Path="FolderDeleteToCodeExec/FolderDeleteToCodeExec.vcxproj" Id="4d13433d-9f08-4b27-a554-234a4e688a4d" />
+  <Project Path="FolderDeleteToCodeExec2/FolderDeleteToCodeExec2.vcxproj" Id="1b816210-1d12-480d-8266-11fccb3dfe59" />
+  <Project Path="MSICustomAction/MSICustomAction.vcxproj" Id="3b3b7421-9d94-4979-8c01-3d670d3f7919" />
+  <Project Path="OffWinLib/OffWinLib/OffWinLib.vcxproj" Id="9a18647a-659f-4e3f-8884-361b0a449293" />
+  <Project Path="Oplock/Oplock.vcxproj" Id="b0df7ed5-670a-42ba-9c7a-1ba8bc811b8a" />
+  <Project Path="Reglink/Reglink.vcxproj" Id="1a4c5716-b380-47d8-b662-f633f713f103" />
+  <Project Path="ShellcodeInjector/ShellcodeInjector.vcxproj" Id="51ef03ef-d263-4f72-a1fe-d604d51bd6f6" />
+  <Project Path="Symlink/Symlink.vcxproj" Id="1c997e35-c327-4980-8b73-faf98ecee8b7" />
+</Solution>
